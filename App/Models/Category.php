@@ -1,5 +1,9 @@
 <?php
 
+namespace App\models;
+
+use App\components\Db;
+
 /**
  * Класс Category - модель для работы с категориями товаров
  */
@@ -89,9 +93,9 @@ class Category
 
         // Текст запроса к БД
         $sql = "UPDATE category
-            SET 
-                name = :name, 
-                sort_order = :sort_order, 
+            SET
+                name = :name,
+                sort_order = :sort_order,
                 status = :status
             WHERE id = :id";
 
@@ -163,7 +167,7 @@ class Category
 
         // Текст запроса к БД
         $sql = 'INSERT INTO category (name, sort_order, status) '
-                . 'VALUES (:name, :sort_order, :status)';
+            . 'VALUES (:name, :sort_order, :status)';
 
         // Получение и возврат результатов. Используется подготовленный запрос
         $result = $db->prepare($sql);

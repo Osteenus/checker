@@ -3,7 +3,7 @@
 // Массив с параметрами подключения к базе данных
 return array(
     'host' => 'localhost',
-    'dbname' => 'phpshop',
-    'user' => 'phpstart',
+    'dbname' => 'checker',
+    'user' => 'postgres',
     'password' => '',
 );

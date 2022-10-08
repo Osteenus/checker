@@ -17,7 +17,7 @@
         <!--[if lt IE 9]>
         <script src="js/html5shiv.js"></script>
         <script src="js/respond.min.js"></script>
-        <![endif]-->       
+        <![endif]-->
         <link rel="shortcut icon" href="/template/images/ico/favicon.ico">
         <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/template/images/ico/apple-touch-icon-144-precomposed.png">
         <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/template/images/ico/apple-touch-icon-114-precomposed.png">
@@ -65,11 +65,13 @@
                                 <div class="shop-menu pull-right">
                                     <ul class="nav navbar-nav">
                                         <li><a href="/cart">
-                                                <i class="fa fa-shopping-cart"></i> Корзина 
-                                                (<span id="cart-count"><?php echo Cart::countItems(); ?></span>)
+                                                <i class="fa fa-shopping-cart"></i> Корзина
+                                                (<span id="cart-count"><?php use App\models\User;
+
+                                                    echo Cart::countItems(); ?></span>)
                                             </a>
                                         </li>
-                                        <?php if (User::isGuest()): ?>                                        
+                                        <?php if (User::isGuest()): ?>
                                             <li><a href="/user/login/"><i class="fa fa-lock"></i> Вход</a></li>
                                         <?php else: ?>
                                             <li><a href="/cabinet/"><i class="fa fa-user"></i> Аккаунт</a></li>
@@ -100,7 +102,7 @@
                                         <li class="dropdown"><a href="#">Магазин<i class="fa fa-angle-down"></i></a>
                                             <ul role="menu" class="sub-menu">
                                                 <li><a href="/catalog/">Каталог товаров</a></li>
-                                                <li><a href="/cart/">Корзина</a></li> 
+                                                <li><a href="/cart/">Корзина</a></li>
                                             </ul>
                                         </li>
                                         <li><a href="/about/">О магазине</a></li>

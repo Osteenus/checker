@@ -1,4 +1,6 @@
-<?php include ROOT . '/views/layouts/header.php'; ?>
+<?php use App\models\Product;
+
+include ROOT . '/views/layouts/header.php'; ?>
 
 <section>
     <div class="container">
@@ -53,8 +55,8 @@
 
                 <div class="recommended_items"><!--recommended_items-->
                     <h2 class="title text-center">Рекомендуемые товары</h2>
-                    
-                    <div class="cycle-slideshow" 
+
+                    <div class="cycle-slideshow"
                          data-cycle-fx=carousel
                          data-cycle-timeout=5000
                          data-cycle-carousel-visible=3
@@ -62,7 +64,7 @@
                          data-cycle-slides="div.item"
                          data-cycle-prev="#prev"
                          data-cycle-next="#next"
-                         >                        
+                         >
                              <?php foreach ($sliderProducts as $sliderItem): ?>
                             <div class="item">
                                 <div class="product-image-wrapper">

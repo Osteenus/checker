@@ -1,5 +1,9 @@
 <?php
 
+namespace App\components;
+
+use App\Controllers\ListsController;
+
 /**
  * Класс Router
  * Компонент для работы с маршрутами
@@ -18,6 +22,8 @@ class Router
      */
     public function __construct()
     {
+
+        // echo "Router constructor";
         // Путь к файлу с роутами
         $routesPath = ROOT . '/config/routes.php';
 
@@ -32,6 +38,8 @@ class Router
     {
         if (!empty($_SERVER['REQUEST_URI'])) {
             return trim($_SERVER['REQUEST_URI'], '/');
+        } else {
+            return '/';
         }
     }
 
@@ -56,23 +64,29 @@ class Router
 
                 $segments = explode('/', $internalRoute);
 
+
                 $controllerName = array_shift($segments) . 'Controller';
                 $controllerName = ucfirst($controllerName);
+
 
                 $actionName = 'action' . ucfirst(array_shift($segments));
 
                 $parameters = $segments;
 
                 // Подключить файл класса-контроллера
-                $controllerFile = ROOT . '/controllers/' .
-                        $controllerName . '.php';
+                $controllerFile = ROOT . '/App/Controllers/' .
+                    $controllerName . '.php';
 
                 if (file_exists($controllerFile)) {
                     include_once($controllerFile);
                 }
 
+
+
                 // Создать объект, вызвать метод (т.е. action)
-                $controllerObject = new $controllerName;
+                $controllerObject = new ('App\Controllers\\'. $controllerName);
+                // $controllerObject = new ListsController();
+                // $controllerObject = new ('App\Controllers\ListsController');
 
                 /* Вызываем необходимый метод ($actionName) у определенного
                  * класса ($controllerObject) с заданными ($parameters) параметрами

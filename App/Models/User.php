@@ -1,32 +1,37 @@
 <?php
 
+namespace App\models;
+
+use App\components\Db;
+
 /**
- * Класс User - модель для работы с пользователями
+ * User Model
  */
 class User
 {
-
     /**
-     * Регистрация пользователя 
-     * @param string $name <p>Имя</p>
+     * User registration
+     * @param string $name <p>Name</p>
      * @param string $email <p>E-mail</p>
-     * @param string $password <p>Пароль</p>
-     * @return boolean <p>Результат выполнения метода</p>
+     * @param string $password <p>Password</p>
+     * @return boolean <p>Result of executing of the request</p>
      */
-    public static function register($name, $email, $password)
+    public static function create(string $name, string $email, string $password):bool
     {
         // Соединение с БД
         $db = Db::getConnection();
 
         // Текст запроса к БД
-        $sql = 'INSERT INTO user (name, email, password) '
-                . 'VALUES (:name, :email, :password)';
+        $sql = 'INSERT INTO users (name, email, password, created_at) '
+             . 'VALUES (:name, :email, :password, :created_at)';
 
-        // Получение и возврат результатов. Используется подготовленный запрос
         $result = $db->prepare($sql);
-        $result->bindParam(':name', $name, PDO::PARAM_STR);
-        $result->bindParam(':email', $email, PDO::PARAM_STR);
-        $result->bindParam(':password', $password, PDO::PARAM_STR);
+        $result->bindParam(':name', $name);
+        $result->bindParam(':email', $email);
+        $password_hash = password_hash($password, PASSWORD_BCRYPT);
+        $result->bindParam(":password", $password_hash);
+        $currentDate = date('Y-m-d H:i:s');
+        $result->bindParam(':created_at', $currentDate);
         return $result->execute();
     }
 
@@ -37,14 +42,14 @@ class User
      * @param string $password <p>Пароль</p>
      * @return boolean <p>Результат выполнения метода</p>
      */
-    public static function edit($id, $name, $password)
+    public static function edit(int $id, string $name, string $password):bool
     {
         // Соединение с БД
         $db = Db::getConnection();
 
         // Текст запроса к БД
-        $sql = "UPDATE user 
-            SET name = :name, password = :password 
+        $sql = "UPDATE user
+            SET name = :name, password = :password
             WHERE id = :id";
 
         // Получение и возврат результатов. Используется подготовленный запрос
@@ -61,24 +66,26 @@ class User
      * @param string $password <p>Пароль</p>
      * @return mixed : integer user id or false
      */
-    public static function checkUserData($email, $password)
+    public static function checkUserData(string $email, string $password):int
     {
         // Соединение с БД
         $db = Db::getConnection();
 
         // Текст запроса к БД
-        $sql = 'SELECT * FROM user WHERE email = :email AND password = :password';
+        $sql = 'SELECT id, email, password FROM users WHERE email = :email';
 
         // Получение результатов. Используется подготовленный запрос
         $result = $db->prepare($sql);
-        $result->bindParam(':email', $email, PDO::PARAM_INT);
-        $result->bindParam(':password', $password, PDO::PARAM_INT);
+        $result->bindParam(':email', $email);
         $result->execute();
 
         // Обращаемся к записи
-        $user = $result->fetch();
+        $user = $result->fetch(\PDO::FETCH_ASSOC);
 
         if ($user) {
+            // $id = $user['id'];
+
+
             // Если запись существует, возвращаем id пользователя
             return $user['id'];
         }
@@ -166,7 +173,7 @@ class User
      * @param string $email <p>E-mail</p>
      * @return boolean <p>Результат выполнения метода</p>
      */
-    public static function checkEmail($email)
+    public static function checkEmail(string $email):bool
     {
         if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
             return true;
@@ -176,20 +183,20 @@ class User
 
     /**
      * Проверяет не занят ли email другим пользователем
-     * @param type $email <p>E-mail</p>
+     * @param string $email <p>E-mail</p>
      * @return boolean <p>Результат выполнения метода</p>
      */
-    public static function checkEmailExists($email)
+    public static function checkEmailExists(string $email):bool
     {
-        // Соединение с БД        
+        // Соединение с БД
         $db = Db::getConnection();
 
         // Текст запроса к БД
-        $sql = 'SELECT COUNT(*) FROM user WHERE email = :email';
+        $sql = 'SELECT COUNT(*) FROM users WHERE email = :email';
 
         // Получение результатов. Используется подготовленный запрос
         $result = $db->prepare($sql);
-        $result->bindParam(':email', $email, PDO::PARAM_STR);
+        $result->bindParam(':email', $email);
         $result->execute();
 
         if ($result->fetchColumn())
@@ -202,13 +209,13 @@ class User
      * @param integer $id <p>id пользователя</p>
      * @return array <p>Массив с информацией о пользователе</p>
      */
-    public static function getUserById($id)
+    public static function getUserById(int $id):array|bool
     {
         // Соединение с БД
         $db = Db::getConnection();
 
         // Текст запроса к БД
-        $sql = 'SELECT * FROM user WHERE id = :id';
+        $sql = 'SELECT * FROM users WHERE id = :id';
 
         // Получение и возврат результатов. Используется подготовленный запрос
         $result = $db->prepare($sql);

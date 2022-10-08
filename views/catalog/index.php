@@ -1,4 +1,6 @@
-<?php include ROOT . '/views/layouts/header.php'; ?>
+<?php use App\models\Product;
+
+include ROOT . '/views/layouts/header.php'; ?>
 
 <section>
     <div class="container">
@@ -25,7 +27,7 @@
             <div class="col-sm-9 padding-right">
                 <div class="features_items"><!--features_items-->
                     <h2 class="title text-center">Последние товары</h2>
-                    
+
                     <?php foreach ($latestProducts as $product): ?>
                         <div class="col-sm-4">
                             <div class="product-image-wrapper">
@@ -38,7 +40,7 @@
                                                 <?php echo $product['name'];?>
                                             </a>
                                         </p>
-                                        
+
                                         <a href="#" data-id="<?php echo $product['id'];?>"
                                            class="btn btn-default add-to-cart">
                                             <i class="fa fa-shopping-cart"></i>В корзину
@@ -50,7 +52,7 @@
                                 </div>
                             </div>
                         </div>
-                    <?php endforeach;?>                   
+                    <?php endforeach;?>
 
                 </div><!--features_items-->
 

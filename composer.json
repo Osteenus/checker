@@ -1,18 +1,21 @@
 {
-  "name": "Osteenus/checker",
+  "name": "osteenus/checker",
   "description": "description",
   "minimum-stability": "stable",
   "license": "proprietary",
   "authors": [
     {
-      "name": "Osteenus",
+      "name": "osteenus",
       "email": "email@example.com"
     }
   ],
   "require": {
+    "ext-pdo": "*",
+    "firebase/php-jwt": "^6.3"
   },
   "autoload": {
-    "psr-4": {"Acme\\": "vendor/autoload.php"}
+    "psr-4": {
+      "App\\" : "App/"
+    }
   }
-
 }

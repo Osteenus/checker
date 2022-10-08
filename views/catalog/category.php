@@ -1,4 +1,6 @@
-<?php include ROOT . '/views/layouts/header.php'; ?>
+<?php use App\models\Product;
+
+include ROOT . '/views/layouts/header.php'; ?>
 
 <section>
     <div class="container">
@@ -13,7 +15,7 @@
                                     <h4 class="panel-title">
                                         <a href="/category/<?php echo $categoryItem['id']; ?>"
                                            class="<?php if ($categoryId == $categoryItem['id']) echo 'active'; ?>"
-                                           >                                                                                    
+                                           >
                                                <?php echo $categoryItem['name']; ?>
                                         </a>
                                     </h4>
@@ -48,10 +50,10 @@
                                 </div>
                             </div>
                         </div>
-                    <?php endforeach; ?>                              
+                    <?php endforeach; ?>
 
                 </div><!--features_items-->
-                
+
                 <!-- Постраничная навигация -->
                 <?php echo $pagination->get(); ?>
 

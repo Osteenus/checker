@@ -1,4 +1,6 @@
-<?php include ROOT . '/views/layouts/header.php'; ?>
+<?php use App\models\Product;
+
+include ROOT . '/views/layouts/header.php'; ?>
 
 <section>
     <div class="container">
@@ -51,7 +53,7 @@
                             </div><!--/product-information-->
                         </div>
                     </div>
-                    <div class="row">                                
+                    <div class="row">
                         <div class="col-sm-12">
                             <br/>
                             <h5>Описание товара</h5>
